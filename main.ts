@@ -1,21 +1,22 @@
 /**
- * Functions for the ESP8266 Wifi module.
+ * Functions for the Wifi8285 module.
  */
 
 // @author Matthias L. Jugel
+// @author Ralf Krause, modifications for Wifi8285 module, 2023
 
 enum MessageType {
     UDP,
     TCP
 }
 
-//% weight=2 color=#1174EE icon="\uf1eb" block="ESP8266"
-//% parts="esp8266"
-namespace esp8266 {
+//% weight=2 color=#1174EE icon="\uf1eb" block="Wifi8285"
+//% parts="Wifi8285"
+namespace Wifi8285 {
     let ERROR = false;
 
     /**
-     * Initialize ESP8266 module. The serial port and generic settings.
+     * Initialize Wifi8285 module. The serial port and generic settings.
      * First connects to the module, using 9600 baud, 8N1 and sets explicit
      * target settings and resets the module.
      * @param tx the new transmission pins, eg: SerialPin.C17
@@ -23,9 +24,9 @@ namespace esp8266 {
      * @param rate the new baud rate, eg: BaudRate.BaudRate115200
      */
     //% weight=210
-    //% blockId=esp8266_init block="initialize ESP8266|TX %tx|RX %rx|at baud rate %rate"
+    //% blockId=Wifi8285_init block="initialize Wifi8285|TX %tx|RX %rx|at baud rate %rate"
     //% blockExternalInputs=1
-    //% parts="esp8266"
+    //% parts="Wifi8285"
     export function init(tx: SerialPin, rx: SerialPin, rate: BaudRate): void {
         modem.init(tx, rx, BaudRate.BaudRate9600);
         // switch to 115200, 8N1 and reset, just to be sure
@@ -46,9 +47,9 @@ namespace esp8266 {
      * Connect to the wifi network.
      */
     //% weight=209
-    //% blockId=esp8266_attach block="connect to the wifi network|SSID %ssid|password %password"
+    //% blockId=Wifi8285_attach block="connect to the wifi network|SSID %ssid|password %password"
     //% blockExternalInputs=1
-    //% parts="esp8266"
+    //% parts="Wifi8285"
     export function attach(ssid: string, password: string): void {
         if (modem.expectOK("+CWMODE=1")) {
             modem.pushAT("+CWJAP=\"" + ssid + "\",\"" + password + "\"");
@@ -63,8 +64,8 @@ namespace esp8266 {
      * Check if we are attached to the wifi network.
      */
     //% weight=209
-    //% blockId=esp8266_isattached block="network attached?"
-    //% parts="esp8266"
+    //% blockId=Wifi8285_isattached block="network attached?"
+    //% parts="Wifi8285"
     export function isAttached(ssid: string = null): boolean {
         let r = modem.sendAT("+CWJAP?");
         return r.length >= 2 && r[r.length - 2].compare("No AP") != 0 && r[r.length - 1].compare("OK") == 0;
@@ -75,8 +76,8 @@ namespace esp8266 {
      * Disconnect from the wifi network.
      */
     //% weight=209
-    //% blockId=esp8266_detach block="disconnect from wifi network"
-    //% parts="esp8266"
+    //% blockId=Wifi8285_detach block="disconnect from wifi network"
+    //% parts="Wifi8285"
     export function detach(): void {
         modem.expectOK("+CWQAP")
     }
@@ -89,9 +90,9 @@ namespace esp8266 {
      * @param {string} message the actual data to send
      */
     //% weight=70
-    //% blockId=esp8266_send block="send raw message|type %type|server %address|port %port|message %message"
+    //% blockId=Wifi8285_send block="send raw message|type %type|server %address|port %port|message %message"
     //% blockExternalInputs=1
-    //% parts="esp8266"
+    //% parts="Wifi8285"
     export function send(type: MessageType, address: string, port: number, message: string): void {
         ERROR = true;
         let messageType = "";
@@ -119,8 +120,8 @@ namespace esp8266 {
      * Also reset the status.
      */
     //% weight=70
-    //% blockId=esp8266_sendOk block="send success?"
-    //% parts="esp8266"
+    //% blockId=Wifi8285_sendOk block="send success?"
+    //% parts="Wifi8285"
     export function sendOk(): boolean {
         if (ERROR) {
             ERROR = false;
