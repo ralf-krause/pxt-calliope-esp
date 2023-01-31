@@ -10,14 +10,14 @@ enum MessageType {
     TCP
 }
 
-//% weight=2 color=#1174EE icon="\uf1eb" block="Wifi8285"
+//% weight=2 color=#606060 icon="\uf1eb" block="Wifi8285"
 //% parts="Wifi8285"
 namespace Wifi8285 {
     let ERROR = false;
 
     /**
      * Initialize Wifi8285 module. The serial port and generic settings.
-     * First connects to the module, using 9600 baud, 8N1 and sets explicit
+     * First connects to the module, using 115200 baud, 8N1 and sets explicit
      * target settings and resets the module.
      * @param tx the new transmission pins, eg: SerialPin.C17
      * @param rx the new reception pin, eg: SerialPin.C16
@@ -28,7 +28,7 @@ namespace Wifi8285 {
     //% blockExternalInputs=1
     //% parts="Wifi8285"
     export function init(tx: SerialPin, rx: SerialPin, rate: BaudRate): void {
-        modem.init(tx, rx, BaudRate.BaudRate9600);
+        modem.init(tx, rx, BaudRate.BaudRate115200);
         // switch to 115200, 8N1 and reset, just to be sure
         modem.pushAT("+UART=115200,8,1,0,0");
         modem.pushAT("+RST");
