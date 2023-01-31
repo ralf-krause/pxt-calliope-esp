@@ -4,8 +4,7 @@
     "description": "",
     "dependencies": {
         "core": "*",
-        "radio": "*",
-        "pxt-calliope-modem": "github:MKleinSB/pxt-calliope-modem#v1.0.6"
+        "pxt-calliope-modem": "github:ralf-krause/pxt-calliope-modem"
     },
     "files": [
         "README.md",
